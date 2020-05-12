@@ -67,32 +67,26 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
     device       - Where the model and data should be loaded (gpu or cpu).
     """
     for epoch in range(1, epochs + 1):
-        model.train()
+        model.train() # train model
         total_loss = 0
         for batch in train_loader:         
-            batch_X, batch_y = batch
+            batch_X, batch_y = batch # get x and y to compute
             
-            batch_X = batch_X.to(device)
-            batch_y = batch_y.to(device)
+            X = batch_X.to(device)
+            y = batch_y.to(device)
             
-            # TODO: Complete this train method to train the model provided.
-            # zero accumulated gradients
-            model.zero_grad()
+            model.zero_grad() # compute model to zero gradient
             
-             # get the output from the model
-            output = model(batch_X)
+            output = model(X) # provide input X to model
             
-            # calculate the loss and perform backprop
-            loss = loss_fn(output.squeeze(), batch_y.float())
-            loss.backward()
+            loss = loss_fn(output.squeeze(), y.float()) # compute loss
+            loss.backward() # back propagating the loss
             
             optimizer.step()
             
             total_loss += loss.data.item()
-        print("Epoch: {}, BCELoss: {}".format(epoch, total_loss / len(train_loader)))
-    # TODO: Paste the train() method developed in the notebook here.
+        print(f"Epoch: {epoch}, BCELoss: {total_loss / len(train_loader)}")
 
-#     pass
 
 
 if __name__ == '__main__':
